@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import * as Dialog from '@radix-ui/react-dialog';
 
 import { QUERIES, WEIGHTS } from '../../constants';
@@ -42,10 +42,37 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
   );
 };
 
+/* ------------------- */
+/* Animations */
+/* ------------------- */
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const slideIn = keyframes`
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+`;
+
+const contentFadeIn = keyframes`
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
+
+/* ------------------- */
+/* Styled Components */
+/* ------------------- */
+
 const Overlay = styled(Dialog.Overlay)`
   position: fixed;
   inset: 0;
   background: var(--color-backdrop);
+  animation: ${fadeIn} 300ms ease forwards;
 `;
 
 const Content = styled(Dialog.Content)`
@@ -59,6 +86,15 @@ const Content = styled(Dialog.Content)`
   padding: 24px 32px;
   display: flex;
   flex-direction: column;
+
+  animation: ${slideIn} 400ms cubic-bezier(0.22, 1, 0.36, 1) forwards; 
+  /* 👆 custom easing curve */
+  
+  /* animate all children fading in */
+  & > * {
+    animation: ${contentFadeIn} 500ms ease forwards;
+    animation-delay: 200ms;
+  }
 `;
 
 const CloseButton = styled(UnstyledButton)`
@@ -89,6 +125,7 @@ const NavLink = styled.a`
 const Filler = styled.div`
   flex: 1;
 `;
+
 const Footer = styled.footer`
   flex: 1;
   display: flex;

@@ -21,7 +21,7 @@ const Header = () => {
         </LogoWrapper>
         <DesktopNav>
           <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
+          <NavLink href="/new">New Releases</NavLink>
           <NavLink href="/men">Men</NavLink>
           <NavLink href="/women">Women</NavLink>
           <NavLink href="/kids">Kids</NavLink>
@@ -51,6 +51,10 @@ const Header = () => {
     </header>
   );
 };
+
+// ----------------------------
+// Styled Components
+// ----------------------------
 
 const MainHeader = styled.div`
   display: flex;
@@ -114,16 +118,70 @@ const Filler = styled.div`
   }
 `;
 
-const NavLink = styled.a`
-  font-size: 1.125rem;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--color-gray-900);
-  font-weight: ${WEIGHTS.medium};
+// ----------------------------
+// Flip-Up NavLink Component
+// ----------------------------
 
-  &:first-of-type {
+const NavLink = ({ href, children }) => {
+  return (
+    <StyledNavLink href={href}>
+      <span className="regular">{children}</span>
+      <span className="bold">{children}</span>
+    </StyledNavLink>
+  );
+};
+
+const StyledNavLink = styled.a`
+  position: relative;
+  display: inline-block;
+  height: 1.5em;   /* ⬆️ increased from 1.2em */
+  padding: 0 2px;  /* ⬅️ some horizontal breathing room */
+  overflow: hidden;
+  perspective: 500px;
+  text-decoration: none;
+
+  span {
+    display: block;
+    transition: transform 300ms;
+    transform-origin: top;
+    line-height: 1.4; /* ⬆️ improves spacing for tall words */
+  }
+
+  .regular {
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-gray-900);
+    font-weight: ${WEIGHTS.medium};
+    transform: translateY(0) rotateX(0);
+  }
+
+  .bold {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    color: var(--color-gray-900);
+    font-weight: ${WEIGHTS.bold};
+    transform: translateY(100%) rotateX(-90deg);
+  }
+
+  &:hover .regular {
+    transform: translateY(-100%) rotateX(90deg);
+  }
+
+  &:hover .bold {
+    transform: translateY(0) rotateX(0);
+  }
+
+  &:first-of-type .regular,
+  &:first-of-type .bold {
     color: var(--color-secondary);
   }
 `;
+
+ 
+
 
 export default Header;

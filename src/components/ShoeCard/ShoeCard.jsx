@@ -75,14 +75,34 @@ const Link = styled.a`
 
 const Wrapper = styled.article``;
 
+
+
+
+
+
 const ImageWrapper = styled.div`
   position: relative;
+  overflow: hidden;
+  border-radius: 16px 16px 4px 4px;
+
+  &:hover img {
+    transform: scale(1.1) translateY(-4%); 
+    transition: transform 200ms ease-out; 
+  }
+  img {
+    transition: transform 600ms ease-in; 
+  }
 `;
 
 const Image = styled.img`
   width: 100%;
-  border-radius: 16px 16px 4px 4px;
+  border-radius: inherit;
+  display: block; 
+  transform-origin: center 60%; 
+
 `;
+
+
 
 const Row = styled.div`
   font-size: 1rem;
